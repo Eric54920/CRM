@@ -1,0 +1,68 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <div class="navbar-form navbar-left" role="search">
+                <button class="btn btn-primary add" data-toggle="modal" data-target="#addCustomerModal" data="/add_paymentrecord/">添加数据</button>
+            </div>
+            <div class="navbar-form navbar-right">
+                <div class="form-group">
+                    <input type="text" class="form-control" name="search_con" placeholder="Search">
+                </div>
+                <button type="submit" class="btn btn-default search" data="{{ request.path_info }}"><i class="fa fa-search"></i></button>
+            </div>
+        </div>
+    </nav>
+<table class="table table-bordered table-hover text-center">
+    <thead>
+        <tr class="text-center">
+            <th>选择</th>
+            <th>客户</th>
+            <th>课程名</th>
+            <th>费用类型</th>
+            <th>费用数额</th>
+            <th>交款日期</th>
+            <th>班级类型</th>
+            <th>所报班级</th>
+            <th>销售</th>
+            <th>删除状态</th>
+            <th>审核</th>
+            <th>确认日期</th>
+            <th>确认人</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for paymentRecord in paymentRecords %}
+        <tr>
+            <td>
+                <input type="checkbox" name="{{paymentRecord.pk}}">
+            </td>
+            <td>{{ paymentRecord.customer.name }}</td>
+            <td>{{ paymentRecord.get_course_display }}</td>
+            <td>{{ paymentRecord.get_pay_type_display }}</td>
+            <td>{{ paymentRecord.paid_fee }}</td>
+            <td>{{ paymentRecord.date }}</td>
+            <td>{{ paymentRecord.get_class_type_display }}</td>
+            <td>{{ paymentRecord.enrolment_class }}</td>
+            <td>{{ paymentRecord.consultant.name }}</td>
+            <td>{{ paymentRecord.delete_status }}</td>
+            <td>{{ paymentRecord.get_status_display }}</td>
+            <td>{{ paymentRecord.confirm_date }}</td>
+            <td>{{ paymentRecord.confirm_user }}</td>
+            <td>
+                <button class="btn btn-primary btn-sm edit" data="/edit_paymentRecord/{{paymentRecord.pk}}" data-toggle="modal"
+                    data-target="#addCustomerModal"><i class="fa fa-edit"></i></button>
+                <button class="btn btn-danger btn-sm delete" data="{% url 'delete_obj' 'payment' paymentRecord.pk %}"><i class="fa fa-trash-o"></i></button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<div class="container">
+    <ul class="pagination">
+        {{ pagination|safe }}
+    </ul>
+</div>
+{% endblock %}

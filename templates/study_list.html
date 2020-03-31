@@ -1,0 +1,38 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<form action="" class="form" method="post">
+    {{ formset.management_form }}
+    {% csrf_token %}
+    <button class="btn btn-primary">保存</button>
+    <table class="table table-bordered table-hover text-center">
+        <thead>
+            <tr class="text-center">
+                <th>选择</th>
+                <th>考勤</th>
+                <th>学生</th>
+                <th>成绩</th>
+                <th>评语</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for form in formset %}
+            <tr>
+                <p class="hidden">{{form.student}}
+                {{form.course_record}}</p>
+                <td>{{ form.id }}{{ forloop.counter }}</td>
+                <td>{{ form.attendance }}</td>
+                <td>{{ form.instance.student }}</td>
+                <td>{{ form.score }}</td>
+                <td>{{ form.homework_note }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</form>
+<div class="container">
+    <ul class="pagination">
+        {{ pagination|safe }}
+    </ul>
+</div>
+{% endblock %}

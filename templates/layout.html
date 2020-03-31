@@ -1,0 +1,507 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>路飞学城</title>
+    <link rel="shortcut icon" href="{% static 'imgs/luffy-study-logo.png' %} ">
+    <link rel="stylesheet" href="{% static 'plugins/bootstrap/css/bootstrap.min.css' %} " />
+    <link rel="stylesheet" href="{% static 'plugins/font-awesome/css/font-awesome.css' %} " />
+    <link rel="stylesheet" href="{% static 'css/commons.css' %} " />
+    <link rel="stylesheet" href="{% static 'css/nav.css' %} " />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@9.3.17/dist/sweetalert2.min.css">
+    <style>
+        body {
+            margin: 0;
+        }
+        .table th, .table td {
+            vertical-align: middle !important;
+            text-align: center;
+        }
+        .no-radius {
+            border-radius: 0;
+        }
+
+        .no-margin {
+            margin: 0;
+        }
+
+        .pg-body>.left-menu {
+            background-color: #EAEDF1;
+            position: absolute;
+            left: 1px;
+            top: 48px;
+            bottom: 0;
+            width: 220px;
+            border: 1px solid #EAEDF1;
+            overflow: auto;
+        }
+
+        .pg-body>.right-body {
+            position: absolute;
+            left: 225px;
+            right: 0;
+            top: 48px;
+            bottom: 0;
+            overflow: scroll;
+            border: 1px solid #ddd;
+            border-top: 0;
+            font-size: 13px;
+            min-width: 755px;
+        }
+
+        .navbar-right {
+            float: right !important;
+            margin-right: -15px;
+        }
+
+        .luffy-container {
+            padding: 15px;
+        }
+
+        /* .left-menu .menu-body .static-menu {} */
+
+        .left-menu .menu-body .static-menu .icon-wrap {
+            width: 20px;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .left-menu .menu-body .static-menu a {
+            text-decoration: none;
+            padding: 8px 15px;
+            border-bottom: 1px solid #ccc;
+            color: #333;
+            display: block;
+            background: #efefef;
+            background: -webkit-gradient(linear, left bottom, left top, color-stop(0, #efefef), color-stop(1, #fafafa));
+            background: -ms-linear-gradient(bottom, #efefef, #fafafa);
+            background: -o-linear-gradient(bottom, #efefef, #fafafa);
+            filter: progid:dximagetransform.microsoft.gradient(startColorStr='#e3e3e3', EndColorStr='#ffffff');
+            -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorStr='#fafafa',EndColorStr='#efefef')";
+            box-shadow: inset 0 1px 1px white;
+        }
+
+        .left-menu .menu-body .static-menu a:hover {
+            color: #2F72AB;
+            border-left: 2px solid #2F72AB;
+        }
+
+        .left-menu .menu-body .static-menu a.active {
+            color: #2F72AB;
+            border-left: 2px solid #2F72AB;
+        }
+
+        .green,
+        .red,
+        .yellow,
+        .blue,
+        .gary {
+            padding: 3px;
+            color: #fff;
+            text-align: center;
+        }
+
+        .green {
+            background-color: green;
+        }
+
+        .gary {
+            background-color: rgb(158, 155, 155);
+        }
+
+        .red {
+            background-color: red;
+        }
+
+        .yellow {
+            background-color: orange;
+        }
+
+        .blue {
+            background-color: rgb(16, 116, 247);
+        }
+        .not-required {
+            color: rgb(97, 95, 95)
+        }
+    </style>
+    {% block css %} {% endblock %}
+</head>
+
+<body>
+
+    <div class="pg-header">
+        <div class="nav">
+            <div class="logo-area left">
+                <a href="#">
+                    <img class="logo" src="{% static 'imgs/logo.svg' %}">
+                    <span style="font-size: 18px;">路飞学城 </span>
+                </a>
+            </div>
+
+            <div class="left-menu left">
+                <a class="menu-item">资产管理</a>
+                <a class="menu-item" href="{% url 'user_list' %}">用户信息</a>
+                <a class="menu-item">路飞管理</a>
+                <div class="menu-item">
+                    <span>使用说明</span>
+                    <i class="fa fa-caret-down" aria-hidden="true"></i>
+                    <div class="more-info">
+                        <a href="#" class="more-item">管他什么菜单</a>
+                        <a href="#" class="more-item">实在是编不了</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-menu right clearfix">
+
+                <div class="user-info right">
+                    <a href="#" class="avatar">
+                        <img class="img-circle" src="{% static 'imgs/default.png' %}">
+                    </a>
+
+                    <div class="more-info">
+                        <a href="#" class="more-item">个人信息</a>
+                        <a href="#" class="more-item">注销</a>
+                    </div>
+                </div>
+
+                <a class="user-menu right">
+                    消息
+                    <i class="fa fa-commenting-o" aria-hidden="true"></i>
+                    <span class="badge bg-success">2</span>
+                </a>
+
+                <a class="user-menu right">
+                    通知
+                    <i class="fa fa-envelope-o" aria-hidden="true"></i>
+                    <span class="badge bg-success">2</span>
+                </a>
+
+                <a class="user-menu right">
+                    任务
+                    <i class="fa fa-bell-o" aria-hidden="true"></i>
+                    <span class="badge bg-danger">4</span>
+                </a>
+            </div>
+
+        </div>
+    </div>
+    <div class="pg-body">
+        <div class="left-menu">
+            <div class="menu-body">
+                <div class="static-menu">
+                    <a href="{% url 'customer' %}"><span class="icon-wrap"><i class="fa fa-map-o"
+                                aria-hidden="true"></i></span> 所有客户</a>
+                    <a href="{% url 'my_customer' %}"><span class="icon-wrap"><i class="fa fa-map-o"
+                                aria-hidden="true"></i></span> 我的客户</a>
+                    <a href="{% url 'class_list' %}"><span class="icon-wrap"><i class="fa fa-map-o"
+                        aria-hidden="true"></i></span> 所有班级</a>
+                    <a href="{% url 'consult' %}"><span class="icon-wrap"><i class="fa fa-map-o"
+                        aria-hidden="true"></i></span> 跟进记录</a>
+                    <a href="{% url 'enrollments' %}"><span class="icon-wrap"><i class="fa fa-map-o"
+                        aria-hidden="true"></i></span> 报名记录</a>
+                    <a href="{% url 'paymentrecord' %}"><span class="icon-wrap"><i class="fa fa-map-o"
+                        aria-hidden="true"></i></span> 缴费记录</a>
+                    </div>
+            </div>
+        </div>
+        <div class="right-body">
+            <div>
+                <ol class="breadcrumb no-radius no-margin" style="border-bottom: 1px solid #ddd;">
+
+                    <li><a href="#">首页</a></li>
+                    <li class="active">客户管理</li>
+
+                </ol>
+            </div>
+            <!-- 模态框 -->
+            <div class="modal fade" id="addCustomerModal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+
+                        <!-- 模态框头部 -->
+                        <div class="modal-header">
+                            <h4 class="modal-title">添加客户信息</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        </div>
+
+                        <!-- 模态框主体 -->
+                        <div class="modal-body">
+                            {% csrf_token %}
+                            <form class="form">
+
+                            </form>
+                        </div>
+
+                        <!-- 模态框底部 -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-primary add-submit">添加</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            
+            {% block content %} {% endblock %}
+        </div>
+    </div>
+
+    
+    <script src="{% static 'js/jquery-3.3.1.min.js' %} "></script>
+    <script src="{% static 'plugins/bootstrap/js/bootstrap.min.js' %} "></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    {% block js %} {% endblock %}
+    <script>
+        $(function() {
+            /*
+                增加当前所在页面的信息
+            */
+            $('body').on('click', '.add', function() {
+                url = $(this).attr('data')
+                $.ajax({
+                    url: url,
+                    success: function(ret) {
+                        if (ret['status'] == 200) {
+                            $('#addCustomerModal .modal-body form').children().remove()
+                            $('#addCustomerModal .modal-body form').append(ret['form_add'])
+                            $('.add-submit').attr({'data': url})
+                            $('.add-submit').text('添加')
+                            if (url == '/add_customers/') {
+                                $('.modal-header h4').text('添加客户信息')
+                            } else if ($.trim(url) == '/add_class/') {
+                                $('.modal-header h4').text('添加班级信息')
+                            } else if ($.trim(url) == '/add_consult/') {
+                                $('.modal-header h4').text('添加跟进信息')
+                            } else if ($.trim(url) == '/add_enrollment/') {
+                                $('.modal-header h4').text('添加报名信息')
+                            } else if ($.trim(url) == '/add_paymentrecord/') {
+                                $('.modal-header h4').text('添加缴费记录')
+                            } else if (url.split('/')[0] == 'add_courserecord') {
+                                $('.modal-header h4').text('添加课程记录')
+                            } else if ($.trim(url) == '/add_studyrecord/') {
+                                $('.modal-header h4').text('添加学习记录')
+                            }
+                        }
+                    }
+                })
+            })
+
+            /*
+                提交增加客户 & 编辑客户表单
+            */
+            $('.add-submit').click(function() {
+                url = $(this).attr('data')
+                var add_form = new FormData()
+                $('#addCustomerModal .modal-body p').children("[name]").each(function(index, dom) {
+                    if ($(dom).attr('type') == 'checkbox') {
+                        add_form.append($(dom).attr('name'), $(dom).prop('checked'))
+                    } else {
+                        add_form.append($(dom).attr('name'), $(dom).val())
+                    }
+                })
+                $.ajax({
+                    url: url,
+                    type: 'post',
+                    headers: {'X-CSRFToken': $('[name="csrfmiddlewaretoken"]').val()},
+                    data: add_form,
+                    processData:false,
+                    contentType: false,
+                    success: function(ret) {
+                        if (ret['status'] == 200) {
+                            if (url.split('_')[0] == '/edit') {
+                                var tr_dom = $('.table [data="'+url+'"]').parent().parent()
+                                $(ret['tr']).insertBefore(tr_dom)
+                                $(tr_dom).remove()
+                            } else {
+                                if (ret['tr']) {
+                                    $('.table tbody').append(ret['tr'])
+                                }
+                            }
+                            $('#addCustomerModal').modal('hide')
+                        } else {
+                            $('#addCustomerModal .modal-body form').children().remove()
+                            $('#addCustomerModal .modal-body form').append(ret['form_add'])
+                        }
+                    }
+                })
+            })
+
+            /*
+                编辑客户
+            */
+            $('.table').on('click', '.edit', function() {
+                var url = $(this).attr('data')
+                $.ajax({
+                    url: url,
+                    success: function(ret) {
+                        if (ret['status'] == 200){
+                            $('#addCustomerModal .modal-body form').children().remove()
+                            $('#addCustomerModal .modal-body form').append(ret['obj'])
+                            $('.add-submit').attr({'data': url})
+                            $('.add-submit').text('编辑')
+                            $('.modal-header h4').text('编辑信息')
+                        }
+                    }
+                })
+            })
+
+            /*
+                转换
+            */
+           $('.transfer').click(function() {
+               var lst = $('tbody [type="checkbox"]')
+               var newList = []
+               $.each(lst, function(index) {
+                    if (lst[index].checked == true) {
+                        newList.push($(lst[index]).attr('name'))
+                    }
+               })
+               var action = $('[name="action"]').val()
+               if (action != '请选择操作' && newList != null) {
+                   $.ajax({
+                        url: '/custom_transfer/',
+                        type: 'post',
+                        headers: {'X-CSRFToken': $('[name="csrfmiddlewaretoken"]').val()},
+                        data: {
+                            'user_list':newList,
+                            'action': action
+                        },
+                        success: function(ret) {
+                            if (ret['status'] == 200) {
+                                if (action == 1){
+                                    window.location.href = '/customer/'
+                                } else {
+                                    window.location.href = '/my_customer/'
+                                }
+                            } else {
+                                Swal.fire({
+                                position: 'center',
+                                icon: 'error',
+                                title: ret['msg'],
+                                showConfirmButton: false,
+                                timer: 1500
+                                })
+                            }
+                        }
+                   })
+                } else {
+                    Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: '请先选择操作',
+                    showConfirmButton: false,
+                    timer: 1500
+                    })
+                }
+           })
+
+           /**
+                搜索
+            */
+           $('.search').click(function() {
+               var search_con = $('.navbar-right [name="search_con"]').val()
+               var curt_page = $(this).attr('data')
+               $.ajax({
+                   url: curt_page,
+                   type: 'post',
+                   headers: {'X-CSRFToken': $('[name="csrfmiddlewaretoken"]').val()},
+                   data: {
+                       'search_con': search_con,
+                       'curt_page': curt_page
+                   },
+                   success: function(ret) {
+                       if (ret['status'] == 200) {
+                            $('.table tbody tr').remove()
+                            for (var i in ret['tr']){
+                                    $('.table tbody').append(ret['tr'][i])
+                            }
+                            $('.pagination li').remove()
+                            $('.pagination').append(ret['pagination'])
+                       } else {
+                            $('.table').replaceWith('<h1 class="text-center">'+ret['msg']+'</h1>')
+                       }
+                   }
+               })
+           })
+
+
+           /*
+                删除
+           */
+           $('.table').on('click', '.delete', function() {
+                url = $(this).attr('data')
+                Swal.fire({
+                title: '确定删除?',
+                text: "删除后不可恢复!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '确定!'
+                }).then((result) => {
+                    if (result.value) {
+                        $.ajax({
+                            url: url,
+                            success: (ret) => {
+                                if (ret['status'] == 200) {
+                                    $(this).parent().parent().remove()
+                                    Swal.fire({
+                                    position: 'center',
+                                    icon: 'success',
+                                    title: '删除成功',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                    })
+                                } else {
+                                    Swal.fire({
+                                    position: 'center',
+                                    icon: 'error',
+                                    title: '删除失败',
+                                    showConfirmButton: false,
+                                    timer: 1500
+                                    })
+                                }
+                            }
+                        })
+                    }
+                })
+           })
+
+           /*
+                批量操作
+           */
+            $('.opertate_all').click(function() {
+                var id_list = []
+                $('tbody [type="checkbox"]').each(function(index, dom){
+                    if ($(dom).prop('checked')==true) {
+                        id_list.push($(dom).val())
+                    }
+                })
+                if (id_list.length == 0) {
+                    Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: '请先选择课程记录',
+                    showConfirmButton: false,
+                    timer: 1500
+                    })
+                    return
+                }
+                $.ajax({
+                    url: '/operate_all/',
+                    type: 'post',
+                    headers: {'X-CSRFToken': $('[name="csrfmiddlewaretoken"]').val()},
+                    data: {'id_list': id_list},
+                    success: (ret) => {
+                        console.log(ret)
+                    }
+                })
+            })
+        })
+    </script>
+</body>
+
+</html>
