@@ -1,0 +1,91 @@
+{% extends 'layout.html' %}
+
+{% load my_tags %}
+
+{% block content %}
+
+    <a class="btn btn-primary btn-sm" href="{% reverse_url request 'customer_add' %}">新增</a>
+    <div>
+        <form action="" class="form-inline pull-right">
+            {#            <select name="query_field" class="form-control" >#}
+            {#                <option value="name">姓名</option>#}
+            {#                <option value="phone">手机号</option>#}
+            {#                <option value="qq">QQ</option>#}
+            {##}
+            {#            </select>#}
+            <input type="text" name="query" class="form-control">
+            <button class="btn btn-success btn-sm">搜索</button>
+        </form>
+    </div>
+
+    <form action="" method="post" class="form-inline">
+        <select name="action" id="" class="form-control">
+            {% if request.path_info ==  url %}
+                <option value="multi_apply">公户转私户</option>
+            {% else %}
+                <option value="multi_pub">私户转公户</option>
+            {% endif %}
+
+        </select>
+        <button class="btn btn-success btn-sm">提交</button>
+        {% csrf_token %}
+        <table class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>选择</th>
+                <th>序号</th>
+                <th>姓名</th>
+                <th>QQ</th>
+                <th>性别</th>
+                <th>出生日期</th>
+                <th>手机号</th>
+                <th>客户来源</th>
+                <th>咨询课程</th>
+                <th>班级类型</th>
+                <th>状态</th>
+                <th>跟进记录</th>
+                <th>报名记录</th>
+                <th>销售</th>
+                <th>班级</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for customer in all_customer %}
+                <tr>
+                    <td><input type="checkbox" name="pk" value="{{ customer.pk }}"></td>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ customer.name|default:'-' }}</td>
+                    <td>{{ customer.qq }}</td>
+                    <td>{{ customer.get_sex_display }}</td>
+                    <td>{{ customer.birthday }}</td>
+                    <td>{{ customer.phone }}</td>
+                    <td>{{ customer.get_source_display }}</td>
+                    <td>{{ customer.course }}</td>
+                    <td>{{ customer.get_class_type_display }}</td>
+                    <td> {{ customer.show_status }} </td>
+                    <td><a href="{% url 'one_consult_record' customer.pk %}">查看</a> </td>
+                    <td>
+                        <a href="{% reverse_url request 'enrollment_add' customer_id=customer.pk %}">新增</a>
+                        <a href="{% url 'one_enrollment_list' customer.pk %}">查看</a>
+                    </td>
+                    <td>{{ customer.consultant }}</td>
+                    <td> {{ customer.show_class }}
+                        {#                {% for class_list in customer.class_list.all  %}#}
+                        {#                    {{ class_list }}#}
+                        {#                {% endfor %}#}
+                    </td>
+                    <td><a class="btn btn-info btn-sm" href="{% reverse_url request 'customer_edit' customer.pk  %}">编辑</a></td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </form>
+
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            {{ page_html }}
+        </ul>
+    </nav>
+{% endblock %}

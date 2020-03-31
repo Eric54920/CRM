@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>注册</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <style>
+        select {
+            width: 300px;
+            height: 42px;
+            line-height: 42px;
+            margin-top: 25px;
+            padding: 0 15px;
+            background: #2d2d2d;
+            background: rgba(45, 45, 45, .15);
+            -moz-border-radius: 6px;
+            -webkit-border-radius: 6px;
+            border-radius: 6px;
+            border: 1px solid #3d3d3d;
+            border: 1px solid rgba(255, 255, 255, .15);
+            -moz-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, .1) inset;
+            -webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, .1) inset;
+            box-shadow: 0 2px 3px 0 rgba(0, 0, 0, .1) inset;
+            font-family: microsoft yahei, Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            color: #fff;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, .1);
+            -o-transition: all .2s;
+            -moz-transition: all .2s;
+            -webkit-transition: all .2s;
+            -ms-transition: all .2s;
+
+        }
+
+
+        option {
+            background-color: #2d2d2d;
+        }
+    </style>
+
+</head>
+<body>
+<div class="login-container">
+    <h1>ShareLink</h1>
+    <div class="connect">
+        <p>Link the world. Share to world.</p>
+    </div>
+    <form action="" method="post" id="loginForm" novalidate="novalidate">
+        {% csrf_token %}
+
+        <div>
+            {{ form_obj.username }}
+        </div>
+        <div>
+            {{ form_obj.username.errors.0 }}
+        </div>
+        <div>
+            {{ form_obj.password }}
+        </div>
+        <div>
+            {{ form_obj.password.errors.0 }}
+        </div>
+        <div>
+            {{ form_obj.re_password }}
+        </div>
+        <div>
+            {{ form_obj.re_password.errors.0 }}
+        </div>
+        <div>
+            {{ form_obj.name }}
+        </div>
+        <div>
+            {{ form_obj.name.errors.0 }}
+        </div>
+        <div>
+            {{ form_obj.department }}
+        </div>
+        <div>
+            {{ form_obj.department.errors.0 }}
+        </div>
+        <div>
+            {{ form_obj.mobile }}
+        </div>
+        <div>
+            {{ form_obj.mobile.errors.0 }}
+        </div>
+
+
+        <button id="submit" type="submit">注 册</button>
+    </form>
+    <a href="{% url 'login' %}">
+        <button type="button" class="register-tis">已有账号，点击登录</button>
+    </a>
+</div>
+
+
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/common.js' %}"></script>
+
+<script src="{% static 'js/supersized.3.2.7.min.js' %}"></script>
+
+<script>
+    jQuery(function ($) {
+        $.supersized({
+            slide_interval: 4000,
+            transition: 1,
+            transition_speed: 1000,
+            performance: 1,
+            min_width: 0,
+            min_height: 0,
+            vertical_center: 1,
+            horizontal_center: 1,
+            fit_always: 0,
+            fit_portrait: 1,
+            fit_landscape: 0,
+            slide_links: 'blank',
+            slides: [{image: "{% static 'imgs/1.jpg' %}"}, {image: "{% static 'imgs/2.jpg' %}"}, {image: "{% static 'imgs/3.jpg' %}"}]
+        });
+    });
+</script>
+{#<script src="{% static 'js/jquery.validate.min.js' %}"></script>#}
+
+
+</body>
+</html>

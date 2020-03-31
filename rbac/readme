@@ -1,0 +1,50 @@
+1. 在settings中注册app
+2. 注册中间件
+MIDDLEWARE = [
+    ...
+    'rbac.middlewares.rbac.AuthMiddleWare'
+]
+3. 权限信息的配置
+    # 白名单
+    WHITE_LIST = [
+        r'^/login/$',
+        r'^/admin/',
+    ]
+
+    # 免认证的地址
+    PASS_LIST = [
+        r'^/index/$'
+    ]
+
+    # 权限的session key
+    PERMISSION_SESSION_KEY = 'permission'
+    # 菜单的session key
+    MENU_SESSION_KEY = 'menu'
+4. 数据库的迁移
+    在rbac下的migrations中清除掉除了__init__.py之外的所有的python文件
+    再执行数据库迁移的命令
+    python manage.py  makemigrations
+    python manage.py  migrate
+5. 使用admin填充数据
+    权限的信息
+    角色的信息
+    用户的信息
+6. 登录成功后 进行权限信息的初始化
+    from rbac.service.permission_init import permission_init
+
+    # 登录成功后 权限信息初始化
+    permission_init(request,user_obj)
+
+7. 动态生成一级菜单
+   在母版中左侧菜单的位置
+   引入css样式
+   <link rel="stylesheet" href="{% static 'rbac/css/menu.css' %}">
+
+   <div class="menu-body">
+
+        {% load rbac %}
+        {% menu request %}
+
+   </div>
+
+

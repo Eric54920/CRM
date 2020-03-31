@@ -1,0 +1,68 @@
+{% extends 'layout.html' %}
+
+{% load my_tags %}
+
+{% block content %}
+
+    <a class="btn btn-primary btn-sm" href="{% reverse_url request 'course_record_add' class_id %}">新增</a>
+    <div>
+        <form action="" class="form-inline pull-right">
+
+            <input type="text" name="query" class="form-control">
+            <button class="btn btn-success btn-sm">搜索</button>
+        </form>
+    </div>
+
+    <form action="" method="post" class="form-inline">
+        <select name="action" id="" class="form-control">
+            <option value="multi_init">批量添加学习记录</option>
+
+        </select>
+        <button class="btn btn-success btn-sm">提交</button>
+        {% csrf_token %}
+        <table class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>选择</th>
+                <th>序号</th>
+                <th>课程名称</th>
+                <th>标题</th>
+                <th>是否有作业</th>
+                <th>作业标题</th>
+                <th>讲师</th>
+                <th>记录者</th>
+                <th>日期</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for course_record in all_course_records %}
+                <tr>
+                    <td><input type="checkbox" name="pk" value="{{ course_record.pk }}"></td>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ course_record }}</td>
+                    <td>{{ course_record.course_title|default:'--' }}</td>
+                    <td>{% if course_record.has_homework %} 是 {% else %} 否{% endif %}</td>
+                    <td>{{ course_record.homework_title|default:'--' }}</td>
+                    <td>{{ course_record.teacher }}</td>
+                    <td>{{ course_record.recorder }}</td>
+                    <td>{{ course_record.date }}</td>
+                    <td>
+                        <a class="btn btn-info btn-sm"
+                           href="{% reverse_url request 'course_record_add_edit' course_record.pk %}">编辑</a>
+                        <a class="btn btn-success btn-sm"
+                           href="{% url 'study_record_list' course_record.pk  %}">查看学习记录</a>
+                    </td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </form>
+
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            {{ page_html }}
+        </ul>
+    </nav>
+{% endblock %}

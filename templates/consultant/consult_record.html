@@ -1,0 +1,55 @@
+{% extends 'layout.html' %}
+
+{% load my_tags %}
+
+{% block content %}
+
+    <a class="btn btn-primary btn-sm" href="{% reverse_url request 'consult_record_add' %}">新增</a>
+    <div>
+        <form action="" class="form-inline pull-right">
+            <input type="text" name="query" class="form-control">
+            <button class="btn btn-success btn-sm">搜索</button>
+        </form>
+    </div>
+
+    <form action="" method="post" class="form-inline">
+        <select name="action" id="" class="form-control">
+        </select>
+        <button class="btn btn-success btn-sm">提交</button>
+        {% csrf_token %}
+        <table class="table table-bordered table-hover">
+            <thead>
+            <tr>
+                <th>选择</th>
+                <th>序号</th>
+                <th>客户</th>
+                <th>跟进内容</th>
+                <th>跟进状态</th>
+                <th>跟进日期</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for consult_record in all_consult_records %}
+                <tr>
+                    <td><input type="checkbox" name="pk" value="{{ customer.pk }}"></td>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ consult_record.customer }}</td>
+                    <td>{{ consult_record.note|truncatechars:60 }}</td>
+                    <td>{{ consult_record.get_status_display }}</td>
+                    <td>{{ consult_record.date }}</td>
+
+                    <td><a class="btn btn-info btn-sm" href="{% reverse_url request 'consult_record_edit' consult_record.pk %}">编辑</a></td>
+                </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+    </form>
+
+    <nav aria-label="Page navigation">
+        <ul class="pagination">
+            {{ page_html }}
+        </ul>
+    </nav>
+{% endblock %}
